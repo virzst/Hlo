@@ -1,0 +1,30 @@
+buildscript {
+    ext {
+        compose_version = '1.7.20'
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20"
+    }
+    configurations.all {
+        resolutionStrategy {
+            force 'org.jetbrains.kotlin:kotlin-stdlib:1.7.20'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.20'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-common:1.7.20'
+        }
+    }
+}
+plugins {
+    id 'com.android.application' version '8.0.2' apply false
+    id 'com.android.library' version '8.0.2' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
