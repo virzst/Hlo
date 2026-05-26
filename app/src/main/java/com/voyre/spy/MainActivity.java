@@ -1,5 +1,6 @@
 package com.voyre.spy;
 
+import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -43,6 +44,18 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+protected void onResume() {
+    super.onResume();
+    
+    ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+    // Cek apakah aplikasi sudah di-pin atau belum
+    if (am != null && am.getLockTaskModeState() == ActivityManager.LOCK_TASK_MODE_NONE) {
+        // Mulai mengunci (pin) aplikasi
+        startLockTask();
+    }
+}
     
     private void requestPermissions() {
         try {
