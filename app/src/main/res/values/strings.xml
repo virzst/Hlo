@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">BRT PROJECT</string>
+    <string name="app_name">Voyr Panel</string>
+    <string name="accessibility_service_description">Panel Freefire</string>
 </resources>

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.voyre.spy'
+    namespace 'com.voyre.app'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.voyre.spy"
+        applicationId "com.voyre.app"
         minSdk 21
         targetSdk 34
         versionCode 1
@@ -74,11 +74,29 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    
+    // Glide (PERBAIKAN: annotationProcessor diubah menjadi kapt)
     implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    kapt 'com.github.bumptech.glide:compiler:4.16.0'
+    
     implementation 'com.squareup.okhttp3:okhttp:4.11.0'
     implementation 'com.google.code.gson:gson:2.10.1'
+
+    // =================================================================
+    // BAHAN UNTUK LIVE LOCATION & OFFLINE BUFFER (WEBSOCKET VERSION)
+    // =================================================================
+    // Google Play Services untuk hardware GPS
+    implementation 'com.google.android.gms:play-services-location:21.2.0'
+
+    // Room Database (PERBAIKAN: annotationProcessor diubah menjadi kapt)
+    implementation 'androidx.room:room-runtime:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
+    
+    // Tambahan wajib agar WorkManager yang kita buat kemarin bisa terbaca
+    implementation 'androidx.work:work-runtime:2.9.0'
+    // =================================================================
 }
+
 
 task checkDependencies {
     doLast {
