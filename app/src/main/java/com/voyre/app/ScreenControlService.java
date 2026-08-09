@@ -3,10 +3,12 @@ package com.voyre.app;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.accessibilityservice.GestureDescription;
+import android.content.Context;      // ← TAMBAHKAN INI
 import android.content.SharedPreferences;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.os.Bundle;           // ← TAMBAHKAN INI
 import android.os.Handler;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -15,9 +17,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,9 @@ package com.voyre.app;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.content.Context;  // ← TAMBAHKAN INI
 import android.content.SharedPreferences;
+import android.os.Bundle;        // ← TAMBAHKAN INI
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
