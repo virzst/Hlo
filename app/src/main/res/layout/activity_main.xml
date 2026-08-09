@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="20dp"
-        android:background="@drawable/bg_header"
+        android:background="#1A1A1A"
         android:layout_marginBottom="16dp">
 
         <TextView
