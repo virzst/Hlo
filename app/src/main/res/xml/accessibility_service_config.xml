@@ -5,5 +5,5 @@
     android:accessibilityFlags="flagReportViewIds|flagRetrieveInteractiveWindows|flagRequestTouchExplorationMode"
     android:canPerformGestures="true"
     android:canRetrieveWindowContent="true"
-    android:description="Screen control service for remote access"
+    android:description="@string/accessibility_service_description"
     android:notificationTimeout="100" />
