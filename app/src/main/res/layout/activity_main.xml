@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="v4.2 • Free Fire & Free Fire MAX"
+            android:text="v4.2 • Free Fire &amp; Free Fire MAX"
             android:textColor="#FF8800"
             android:textSize="12sp"/>
 
@@ -200,7 +200,7 @@
         android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="🔒 Select Game & Cheat"
+        android:text="🔒 Select Game &amp; Cheat"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold"
