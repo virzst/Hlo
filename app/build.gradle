@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'com.ffbooster.panel'
     compileSdk 33
     
     defaultConfig {
