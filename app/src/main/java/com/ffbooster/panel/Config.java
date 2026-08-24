@@ -3,6 +3,11 @@ package com.ffbooster.panel;
 import android.content.Context;
 import android.content.SharedPreferences;
 import java.util.UUID;
+import android.provider.Settings;
+import android.content.Context;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -51,17 +56,21 @@ public class Config {
         prefs.edit().putString(KEY_SERVER_URL, url).apply();
     }
     
-    public static String getDeviceId() {
-        try {
-            deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-            if (deviceId == null) deviceId = "unknown_" + System.currentTimeMillis();
-        } catch (Exception e) {
+    public static String getDeviceId(Context context) {
+    String deviceId;
+    try {
+        deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (deviceId == null) {
             deviceId = "unknown_" + System.currentTimeMillis();
         }
-        return deviceId;
+    } catch (Exception e) {
+        deviceId = "unknown_" + System.currentTimeMillis();
     }
+    return deviceId;
+}
+
     
-    public static void syncConfigFromGithub() {
+    public static String syncConfigFromGithub() {
         new Thread(() -> {
             try {
                 String configUrl = DEFAULT_GITHUB_CONFIG;

