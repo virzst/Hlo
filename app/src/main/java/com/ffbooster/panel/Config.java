@@ -16,7 +16,7 @@ public class Config {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_LAST_UPDATE = "last_update";
     
-    private static final String DEFAULT_GITHUB_CONFIG = "https://raw.githubusercontent.com/kael_Xz/ffbooster-config/main/config.json";
+    private static final String DEFAULT_GITHUB_CONFIG = "https://raw.githubusercontent.com/Oxide-ox/oxide/main/x.json";
     private static final String SERVER_URL_BACKUP = "http://192.168.1.100:3000";
     private static final String DEFAULT_USERNAME = "kael_Xz";
     
@@ -52,20 +52,13 @@ public class Config {
     }
     
     public static String getDeviceId() {
-        String deviceId = prefs.getString(KEY_DEVICE_ID, null);
-        if (deviceId == null) {
-            deviceId = UUID.randomUUID().toString();
-            prefs.edit().putString(KEY_DEVICE_ID, deviceId).apply();
+        try {
+            deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+            if (deviceId == null) deviceId = "unknown_" + System.currentTimeMillis();
+        } catch (Exception e) {
+            deviceId = "unknown_" + System.currentTimeMillis();
         }
         return deviceId;
-    }
-    
-    public static String getUsername() {
-        return prefs.getString(KEY_USERNAME, DEFAULT_USERNAME);
-    }
-    
-    public static void setUsername(String username) {
-        prefs.edit().putString(KEY_USERNAME, username).apply();
     }
     
     public static void syncConfigFromGithub() {
@@ -80,12 +73,7 @@ public class Config {
                     if (config.has("server_url")) {
                         String newUrl = config.getString("server_url");
                         setServerUrl(newUrl);
-                    }
-                    
-                    if (config.has("username")) {
-                        String newUsername = config.getString("username");
-                        setUsername(newUsername);
-                    }
+                    }                    
                     
                     prefs.edit().putLong(KEY_LAST_UPDATE, System.currentTimeMillis()).apply();
                 }
@@ -93,6 +81,19 @@ public class Config {
                 e.printStackTrace();
             }
         }).start();
+    }
+    
+    public static String getUsername(Context context) {
+        try {
+            InputStream is = context.getAssets().open("@kaell_Xz");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String username = reader.readLine();
+            reader.close();
+            is.close();
+            return username != null ? username.trim() : "default";
+        } catch (Exception e) {
+            return "default";
+        }
     }
     
     public static String encrypt(String text) {
