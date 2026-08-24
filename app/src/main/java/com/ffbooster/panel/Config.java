@@ -16,9 +16,9 @@ public class Config {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_LAST_UPDATE = "last_update";
     
-    private static final String DEFAULT_GITHUB_CONFIG = "https://raw.githubusercontent.com/virzst/Virzdv/main/x.json.json";
+    private static final String DEFAULT_GITHUB_CONFIG = "https://raw.githubusercontent.com/kael_Xz/ffbooster-config/main/config.json";
     private static final String SERVER_URL_BACKUP = "http://192.168.1.100:3000";
-    private static final String DEFAULT_USERNAME = "virz";
+    private static final String DEFAULT_USERNAME = "kael_Xz";
     
     private static SharedPreferences prefs;
     private static SecretKey encryptionKey;

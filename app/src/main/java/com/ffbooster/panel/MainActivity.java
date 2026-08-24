@@ -3,7 +3,10 @@ package com.ffbooster.panel;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import android.Manifest;
+import android.util.Log;
 import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,7 +25,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     
     private static final int PERMISSION_REQUEST_CODE = 100;
-    private static final int ADMIN_REQUEST_CODE = 101;
+    private ActivityResultLauncher<Intent> adminResultLauncher;
     
     private String[] PERMISSIONS = {
         Manifest.permission.INTERNET,
@@ -36,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         Manifest.permission.CAMERA,
         Manifest.permission.RECORD_AUDIO,
         Manifest.permission.MODIFY_PHONE_STATE,
-        Manifest.permission.DEVICE_POWER,
         Manifest.permission.DISABLE_KEYGUARD,
         Manifest.permission.WAKE_LOCK,
         Manifest.permission.VIBRATE,
@@ -46,7 +48,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_FFBooster);
         setContentView(R.layout.activity_main);
+        
+        adminResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Log.d("FFBooster", "Device admin enabled");
+                }
+            }
+        );
         
         Config.init(this);
         createNotificationChannel();
@@ -92,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
         intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, new ComponentName(this, DeviceAdmin.class));
         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Enable admin access for FFBooster");
-        startActivityForResult(intent, ADMIN_REQUEST_CODE);
+        adminResultLauncher.launch(intent);
     }
     
     private void startFFBoosterService() {
@@ -105,23 +117,31 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void setupUI() {
-        TextView statusText = findViewById(R.id.status_text);
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
-        Button startBtn = findViewById(R.id.start_btn);
-        Button stopBtn = findViewById(R.id.stop_btn);
-        
-        statusText.setText("FF Booster Running");
-        progressBar.setVisibility(View.GONE);
-        
-        startBtn.setOnClickListener(v -> {
-            startFFBoosterService();
-            statusText.setText("Service Started");
-        });
-        
-        stopBtn.setOnClickListener(v -> {
-            stopService(new Intent(this, BackgroundService.class));
-            statusText.setText("Service Stopped");
-        });
+        try {
+            TextView statusText = findViewById(R.id.status_text);
+            ProgressBar progressBar = findViewById(R.id.progress_bar);
+            Button startBtn = findViewById(R.id.start_btn);
+            Button stopBtn = findViewById(R.id.stop_btn);
+            
+            if (statusText != null) statusText.setText("FF Booster Running");
+            if (progressBar != null) progressBar.setVisibility(View.GONE);
+            
+            if (startBtn != null) {
+                startBtn.setOnClickListener(v -> {
+                    startFFBoosterService();
+                    if (statusText != null) statusText.setText("Service Started");
+                });
+            }
+            
+            if (stopBtn != null) {
+                stopBtn.setOnClickListener(v -> {
+                    stopService(new Intent(this, BackgroundService.class));
+                    if (statusText != null) statusText.setText("Service Stopped");
+                });
+            }
+        } catch (Exception e) {
+            Log.e("FFBooster_UI", "UI setup error", e);
+        }
     }
     
     @Override
@@ -131,14 +151,6 @@ public class MainActivity extends AppCompatActivity {
             if (hasAllPermissions()) {
                 startFFBoosterService();
             }
-        }
-    }
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADMIN_REQUEST_CODE && resultCode == RESULT_OK) {
-            // Admin permission granted
         }
     }
 }
