@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Custom attributes for FFBooster -->
+    <attr name="appBarBackground" format="color" />
+    <attr name="appBarTextColor" format="color" />
+</resources>

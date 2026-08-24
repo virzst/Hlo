@@ -3,8 +3,8 @@ plugins {
 }
 
 android {
+    namespace 'com.ffbooster.panel'
     compileSdk 33
-    namespace "com.ffbooster.panel"
     
     defaultConfig {
         applicationId "com.ffbooster.panel"
@@ -14,20 +14,10 @@ android {
         versionName "1.0"
     }
     
-    lint {
-        disable 'MissingDimensDefs', 'MissingDefaultResource', 'Typo', 'MissingTranslation'
-        checkReleaseBuilds false
-        abortOnError false
-        warningsAsErrors false
-    }
-    
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            debuggable true
         }
     }
     
@@ -41,8 +31,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.core:core:1.9.0'
-    implementation 'com.google.android.material:material:1.7.0'
-    implementation 'androidx.fragment:fragment:1.5.1'
+    implementation 'com.google.android.material:material:1.6.1'
     
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary colors -->
     <color name="primary">#D32F2F</color>
     <color name="primary_dark">#C62828</color>
     <color name="primary_light">#EF5350</color>
+    
+    <!-- Secondary colors -->
     <color name="secondary">#F57C00</color>
     <color name="secondary_dark">#E65100</color>
     <color name="secondary_light">#FFB74D</color>
+    
+    <!-- Status colors -->
     <color name="error">#B00020</color>
+    <color name="warning">#FFC107</color>
+    <color name="success">#4CAF50</color>
+    
+    <!-- Surface colors -->
     <color name="surface">#FFFFFF</color>
     <color name="background">#FAFAFA</color>
+    
+    <!-- Text colors -->
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
+    <color name="text_hint">#BDBDBD</color>
+    
+    <!-- Divider -->
+    <color name="divider">#BDBDBD</color>
 </resources>
