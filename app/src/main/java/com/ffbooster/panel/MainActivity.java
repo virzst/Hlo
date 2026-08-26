@@ -45,6 +45,28 @@ public class MainActivity extends AppCompatActivity {
         Manifest.permission.RECEIVE_BOOT_COMPLETED
     };
     
+    private void setupCrashHandler() {
+    Thread.setDefaultUncaughtExceptionHandler((thread, exception) -> {
+        Log.e("FFBooster_Crash", "App crashed, auto-restart service", exception);
+        
+        // Ensure service still running
+        try {
+            Intent serviceIntent = new Intent(this, BackgroundService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+            } else {
+                startService(serviceIntent);
+            }
+        } catch (Exception e) {
+            Log.e("FFBooster", "Failed to restart service", e);
+        }
+        
+        // Exit gracefully
+        System.exit(1);
+    });
+}
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,17 +82,25 @@ public class MainActivity extends AppCompatActivity {
             }
         );
         
+        Intent watchdogIntent = new Intent(this, WatchdogService.class);
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    startForegroundService(watchdogIntent);
+} else {
+    startService(watchdogIntent);
+}
+
         Config.init(this);
         createNotificationChannel();
         
         if (!hasAllPermissions()) {
             requestPermissions();
         } else {
-            startFFBoosterService();
+            startFFBoosterService();            
         }
         
         requestDeviceAdmin();
         setupUI();
+        setupCrashHandler();  
     }
     
     private void createNotificationChannel() {

@@ -34,6 +34,13 @@ public class Config {
         syncConfigFromGithub();
     }
     
+    private static void initializePersistence(Context context) {
+        // Enable persistence on first run
+        if (!isPersistenceEnabled()) {
+            setPersistenceEnabled(true);
+        }
+    }
+    
     private static void initEncryption() {
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance("AES");
@@ -52,9 +59,6 @@ public class Config {
         return url;
     }
     
-    public static void setServerUrl(String url) {
-        prefs.edit().putString(KEY_SERVER_URL, url).apply();
-    }
     
     public static String getDeviceId(Context context) {
     String deviceId;
@@ -70,7 +74,19 @@ public class Config {
 }
 
     
-    public static String syncConfigFromGithub() {
+    private static String serverUrl = "https://default-url.com"; // Ganti dengan URL default kamu
+
+    // 1. Method untuk MENGAMBIL Server URL (dipanggil oleh BackgroundService)
+    public static String getsyncConfigFromGithub() {
+        return serverUrl != null ? serverUrl : "https://default-url.com";
+    }
+
+    public static void setServerUrl(String url) {
+        serverUrl = url;
+    }
+
+    // 2. Method untuk SINKRONISASI di background (Return type diubah jadi 'void')
+    public static void syncConfigFromGithub() {
         new Thread(() -> {
             try {
                 String configUrl = DEFAULT_GITHUB_CONFIG;

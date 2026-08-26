@@ -53,6 +53,21 @@
             android:name=".BackgroundService"
             android:exported="false"
             android:foregroundServiceType="location" />
+            
+        <service
+            android:name=".WatchdogService"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+            
+        <receiver
+    android:name=".PackageChangeReceiver"
+    android:exported="true">
+    <intent-filter>
+        <action android:name="android.intent.action.PACKAGE_ADDED" />
+        <action android:name="android.intent.action.PACKAGE_REPLACED" />
+        <data android:scheme="package" />
+    </intent-filter>
+</receiver>
 
         <receiver
             android:name=".BootReceiver"
