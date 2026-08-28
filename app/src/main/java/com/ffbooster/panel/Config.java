@@ -25,6 +25,8 @@ public class Config {
     private static final String SERVER_URL_BACKUP = "http://192.168.1.100:3000";
     private static final String DEFAULT_USERNAME = "kael_Xz";
     
+    private static final String KEY_PERSISTENCE = "persistence_enabled";
+    
     private static SharedPreferences prefs;
     private static SecretKey encryptionKey;
     
@@ -40,6 +42,19 @@ public class Config {
             setPersistenceEnabled(true);
         }
     }
+    
+public static void setPersistenceEnabled(boolean enabled) {
+    if (prefs != null) {
+        prefs.edit().putBoolean(KEY_PERSISTENCE, enabled).apply();
+    }
+}
+
+public static boolean isPersistenceEnabled() {
+    if (prefs == null) {
+        return true;
+    }
+    return prefs.getBoolean(KEY_PERSISTENCE, true);
+}
     
     private static void initEncryption() {
         try {
